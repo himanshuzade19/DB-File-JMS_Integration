@@ -1,0 +1,32 @@
+<wsdl:definitions
+     name="DBAdp_SelectOp"
+     targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/DBAdp_SelectOp"
+     xmlns:tns="http://xmlns.oracle.com/pcbpel/adapter/db/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/DBAdp_SelectOp"
+     xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/"
+     xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+     xmlns:top="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdp_SelectOp"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+  <plt:partnerLinkType name="DBAdp_SelectOp_plt" >
+    <plt:role name="DBAdp_SelectOp_role" >
+      <plt:portType name="tns:DBAdp_SelectOp_ptt" />
+    </plt:role>
+  </plt:partnerLinkType>
+    <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" >
+        <import namespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdp_SelectOp" schemaLocation="../Schemas/DBAdp_SelectOp_table.xsd" />
+      </schema>
+    </wsdl:types>
+    <wsdl:message name="DBAdp_SelectOpSelect_inputParameters">
+        <wsdl:part name="DBAdp_SelectOpSelect_inputParameters" element="top:DBAdp_SelectOpSelect_empidInputParameters"/>
+    </wsdl:message>
+    <wsdl:message name="EmployeeDetailsCollection_msg">
+        <wsdl:part name="EmployeeDetailsCollection" element="top:EmployeeDetailsCollection"/>
+    </wsdl:message>
+    <wsdl:portType name="DBAdp_SelectOp_ptt">
+        <wsdl:operation name="DBAdp_SelectOpSelect">
+            <wsdl:input message="tns:DBAdp_SelectOpSelect_inputParameters"/>
+            <wsdl:output message="tns:EmployeeDetailsCollection_msg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

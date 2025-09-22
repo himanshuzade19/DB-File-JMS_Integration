@@ -1,0 +1,27 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<ns0:EmployeeDetailsCollection xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:client="http://xmlns.oracle.com/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/DBFileFTPJMS_Process" xmlns:ns0="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdp_InsertOp">
+   <ns0:EmployeeDetails>
+      <ns0:empId>1234</ns0:empId>
+      <ns0:empName>Abhiji2</ns0:empName>
+      <ns0:empStatus>asdfghj</ns0:empStatus>
+      <ns0:empDesignation>soft.Dev</ns0:empDesignation>
+      <ns0:empAddress>Highanchat</ns0:empAddress>
+      <ns0:empAge>12</ns0:empAge>
+   </ns0:EmployeeDetails>
+   <ns0:EmployeeDetails>
+      <ns0:empId>empId7</ns0:empId>
+      <ns0:empName>empName8</ns0:empName>
+      <ns0:empStatus>empStatus9</ns0:empStatus>
+      <ns0:empDesignation>empDesignation10</ns0:empDesignation>
+      <ns0:empAddress>empAddress11</ns0:empAddress>
+      <ns0:empAge>empAge12</ns0:empAge>
+   </ns0:EmployeeDetails>
+   <ns0:EmployeeDetails>
+      <ns0:empId>23456</ns0:empId>
+      <ns0:empName>zzzzzzzzz</ns0:empName>
+      <ns0:empStatus>yyyyy</ns0:empStatus>
+      <ns0:empDesignation>cccccccccc</ns0:empDesignation>
+      <ns0:empAddress>rrrrrrrrrr</ns0:empAddress>
+      <ns0:empAge>iiiiiiiiiiiiii</ns0:empAge>
+   </ns0:EmployeeDetails>
+</ns0:EmployeeDetailsCollection>

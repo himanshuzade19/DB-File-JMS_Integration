@@ -1,0 +1,186 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Sep 17 13:31:15 IST 2025
+  Author:  DAFIT008
+  Type: BPEL 2.0 Process
+  Purpose: Asynchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="DBFileFTPJMS_Process"
+         targetNamespace="http://xmlns.oracle.com/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/DBFileFTPJMS_Process"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:client="http://xmlns.oracle.com/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/DBFileFTPJMS_Process"
+         xmlns:ora="http://schemas.oracle.com/xpath/extension"
+         xmlns:ui="http://xmlns.oracle.com/soa/designer"
+         xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/pcbpel/adapter/db/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/DBAdp_InsertOp"
+         xmlns:ns2="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdp_InsertOp"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns3="http://xmlns.oracle.com/pcbpel/adapter/db/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/DBAdp_SelectOp"
+         xmlns:ns4="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdp_SelectOp"
+         xmlns:ns5="http://xmlns.oracle.com/pcbpel/adapter/file/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/FileAdp_WritefileOp"
+         xmlns:ns6="http://xmlns.oracle.com/pcbpel/adapter/jms/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/jmsAdp_ProduceMsg"
+         xmlns:ns7="http://xmlns.oracle.com/pcbpel/adapter/jms/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/JmsAdp_ConsumeMsg"
+         xmlns:ns8="http://xmlns.oracle.com/pcbpel/adapter/file/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/FileAdp_WriteOp"
+         xmlns:ns9="http://xmlns.oracle.com/pcbpel/adapter/file/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/FileAdp_ReadOp"
+         xmlns:ns10="http://xmlns.oracle.com/pcbpel/adapter/file/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/fileReadService"
+         xmlns:ns11="http://xmlns.oracle.com/pcbpel/adapter/file/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/fileReference">
+
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/DBFileFTPJMS_Process" location="../WSDLs/DBFileFTPJMS_Process.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+    <partnerLinks>
+        <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+        <partnerLink name="dbfileftpjms_process_client" partnerLinkType="client:DBFileFTPJMS_Process" myRole="DBFileFTPJMS_ProcessProvider" partnerRole="DBFileFTPJMS_ProcessRequester"/>
+        <partnerLink name="DBAdp_InsertOp" partnerLinkType="ns1:DBAdp_InsertOp_plt" partnerRole="DBAdp_InsertOp_role"/>
+        <partnerLink name="DBAdp_SelectOp" partnerLinkType="ns3:DBAdp_SelectOp_plt" partnerRole="DBAdp_SelectOp_role"/>
+        <partnerLink name="jmsAdp_ProduceMsg" partnerLinkType="ns6:Produce_Message_plt"
+                     partnerRole="Produce_Message_role"/>
+        <partnerLink name="FileAdp_WriteOp" partnerLinkType="ns8:Write_plt" partnerRole="Write_role"/>
+    </partnerLinks>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        VARIABLES                                                        
+        List of messages and XML documents used within this BPEL process 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <variables>
+        <!-- Reference to the message passed as input during initiation -->
+        <variable name="inputVariable" messageType="client:DBFileFTPJMS_ProcessRequestMessage"/>
+
+        <!-- Reference to the message that will be sent back to the requester during callback -->
+        <variable name="outputVariable" messageType="client:DBFileFTPJMS_ProcessResponseMessage"/>
+        <variable name="Invoke_DBAdp_InsertOp_merge_InputVariable" messageType="ns1:EmployeeDetailsCollection_msg"/>
+        <variable name="Invoke_DBAdp_SelectOp_DBAdp_SelectOpSelect_InputVariable"
+                  messageType="ns3:DBAdp_SelectOpSelect_inputParameters"/>
+        <variable name="Invoke_DBAdp_SelectOp_DBAdp_SelectOpSelect_OutputVariable"
+                  messageType="ns3:EmployeeDetailsCollection_msg"/>
+        <variable name="Invoke_jmsAdp_ProduceMsg_Produce_Message_InputVariable" messageType="ns6:Produce_Message_msg"/>
+        <variable name="Invoke_FileAdp_WriteOp_Write_InputVariable" messageType="ns8:Write_msg"/>
+        
+    </variables>
+
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+       ORCHESTRATION LOGIC                                               
+       Set of activities coordinating the flow of messages across the    
+       services integrated within this business process                  
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    -->
+    <sequence name="main">
+        <!-- Receive input from requestor. (Note: This maps to operation defined in DBFileFTPJMS_Process.wsdl) -->
+        <receive name="receiveInput" partnerLink="dbfileftpjms_process_client" portType="client:DBFileFTPJMS_Process" operation="process" variable="inputVariable" createInstance="yes"/>
+        <assign name="Transformation_Request" validate="yes">
+            <bpelx:annotation>
+                <bpelx:pattern patternName="bpelx:transformation"></bpelx:pattern>
+            </bpelx:annotation>
+            <copy>
+                <from>ora:doXSLTransformForDoc("../Transformations/RequestToInsert.xsl", $inputVariable.payload)</from>
+                <to variable="Invoke_DBAdp_InsertOp_merge_InputVariable" part="EmployeeDetailsCollection"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke_DBAdp_InsertOp" partnerLink="DBAdp_InsertOp"
+                portType="ns1:DBAdp_InsertOp_ptt" operation="merge"
+                inputVariable="Invoke_DBAdp_InsertOp_merge_InputVariable" bpelx:invokeAsDetail="no"/>
+        <assign name="Assign_RequestToSelect" validate="yes">
+            <copy>
+                <from>$inputVariable.payload/ns2:EmployeeDetails/ns2:empId</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_DBAdp_SelectOp_DBAdp_SelectOpSelect_InputVariable.DBAdp_SelectOpSelect_inputParameters/ns4:empid</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke_DBAdp_SelectOp" partnerLink="DBAdp_SelectOp"
+                portType="ns3:DBAdp_SelectOp_ptt" operation="DBAdp_SelectOpSelect"
+                inputVariable="Invoke_DBAdp_SelectOp_DBAdp_SelectOpSelect_InputVariable"
+                outputVariable="Invoke_DBAdp_SelectOp_DBAdp_SelectOpSelect_OutputVariable" bpelx:invokeAsDetail="no"/>
+        <assign name="Assign1">
+            <copy>
+                <from>$Invoke_DBAdp_SelectOp_DBAdp_SelectOpSelect_OutputVariable.EmployeeDetailsCollection/ns4:EmployeeDetails/ns4:empId</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_FileAdp_WriteOp_Write_InputVariable.body/ns2:EmployeeDetails/ns2:empId</to>
+            </copy>
+            <copy>
+                <from>$Invoke_DBAdp_SelectOp_DBAdp_SelectOpSelect_OutputVariable.EmployeeDetailsCollection/ns4:EmployeeDetails/ns4:empName</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_FileAdp_WriteOp_Write_InputVariable.body/ns2:EmployeeDetails/ns2:empName</to>
+            </copy>
+            <copy>
+                <from>$Invoke_DBAdp_SelectOp_DBAdp_SelectOpSelect_OutputVariable.EmployeeDetailsCollection/ns4:EmployeeDetails/ns4:empStatus</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_FileAdp_WriteOp_Write_InputVariable.body/ns2:EmployeeDetails/ns2:empStatus</to>
+            </copy>
+            <copy>
+                <from>$Invoke_DBAdp_SelectOp_DBAdp_SelectOpSelect_OutputVariable.EmployeeDetailsCollection/ns4:EmployeeDetails/ns4:empDesignation</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_FileAdp_WriteOp_Write_InputVariable.body/ns2:EmployeeDetails/ns2:empDesignation</to>
+            </copy>
+            <copy>
+                <from>$Invoke_DBAdp_SelectOp_DBAdp_SelectOpSelect_OutputVariable.EmployeeDetailsCollection/ns4:EmployeeDetails/ns4:empAddress</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_FileAdp_WriteOp_Write_InputVariable.body/ns2:EmployeeDetails/ns2:empAddress</to>
+            </copy>
+            <copy>
+                <from>$Invoke_DBAdp_SelectOp_DBAdp_SelectOpSelect_OutputVariable.EmployeeDetailsCollection/ns4:EmployeeDetails/ns4:empAge</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_FileAdp_WriteOp_Write_InputVariable.body/ns2:EmployeeDetails/ns2:empAge</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke_FileAdp_WriteOp" partnerLink="FileAdp_WriteOp"
+                portType="ns8:Write_ptt" operation="Write" inputVariable="Invoke_FileAdp_WriteOp_Write_InputVariable"
+                bpelx:invokeAsDetail="no"/>
+        <assign name="Assign_JmsProduceMsg" validate="yes">
+            <copy>
+                <from>$inputVariable.payload/ns2:EmployeeDetails/ns2:empId</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_jmsAdp_ProduceMsg_Produce_Message_InputVariable.body/ns2:EmployeeDetails/ns2:empId</to>
+            </copy>
+            <copy>
+                <from>$inputVariable.payload/ns2:EmployeeDetails/ns2:empName</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_jmsAdp_ProduceMsg_Produce_Message_InputVariable.body/ns2:EmployeeDetails/ns2:empName</to>
+            </copy>
+            <copy>
+                <from>$inputVariable.payload/ns2:EmployeeDetails/ns2:empStatus</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_jmsAdp_ProduceMsg_Produce_Message_InputVariable.body/ns2:EmployeeDetails/ns2:empStatus</to>
+            </copy>
+            <copy>
+                <from>$inputVariable.payload/ns2:EmployeeDetails/ns2:empDesignation</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_jmsAdp_ProduceMsg_Produce_Message_InputVariable.body/ns2:EmployeeDetails/ns2:empDesignation</to>
+            </copy>
+            <copy>
+                <from>$inputVariable.payload/ns2:EmployeeDetails/ns2:empAddress</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_jmsAdp_ProduceMsg_Produce_Message_InputVariable.body/ns2:EmployeeDetails/ns2:empAddress</to>
+            </copy>
+            <copy>
+                <from>$inputVariable.payload/ns2:EmployeeDetails/ns2:empAge</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$Invoke_jmsAdp_ProduceMsg_Produce_Message_InputVariable.body/ns2:EmployeeDetails/ns2:empAge</to>
+            </copy>
+        </assign>
+        <invoke name="Invoke_jmsAdp_ProduceMsg" partnerLink="jmsAdp_ProduceMsg"
+                portType="ns6:Produce_Message_ptt" operation="Produce_Message"
+                inputVariable="Invoke_jmsAdp_ProduceMsg_Produce_Message_InputVariable" bpelx:invokeAsDetail="no"/>
+        <assign name="Assign_Response" validate="yes">
+            <copy>
+                <from>'File Written Succesfully'</from>
+                <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:empStatus</to>
+            </copy>
+        </assign>
+        <!-- 
+          Asynchronous callback to the requester. (Note: the callback location and correlation id is transparently handled using WS-addressing.)
+        -->
+        <invoke name="callbackClient" partnerLink="dbfileftpjms_process_client" portType="client:DBFileFTPJMS_ProcessCallback" operation="processResponse" inputVariable="outputVariable"/>
+    </sequence>
+</process>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+        targetNamespace="http://xmlns.oracle.com/DBFileFTPJMSIntegration_App/DBFileFTPJMSIntegration/DBFileFTPJMS_Process"
+        xmlns="http://www.w3.org/2001/XMLSchema">
+  <element name="processResponse">
+    <complexType>
+      <sequence>
+        <element name="empId" type="string"/>
+        <element name="empName" type="string"/>
+        <element name="empStatus" type="string"/>
+        <element name="empDesignation" type="string"/>
+        <element name="empAddress" type="string"/>
+        <element name="empAge" type="string"/>
+      </sequence>
+    </complexType>
+  </element>
+</schema>

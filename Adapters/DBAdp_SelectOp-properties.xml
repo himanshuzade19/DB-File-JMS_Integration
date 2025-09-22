@@ -1,0 +1,31 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+   <entry key="EMPLOYEE_DETAILS.EMP_DESIGNATION:db_column_type">VARCHAR2</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_NAME:db_column_size">100</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_ID:db_column_size">6</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_AGE:db_column_size">3</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_ID:db_column_not_null">false</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_NAME:db_column_not_null">false</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_STATUS:db_column_type">VARCHAR2</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_ADDRESS:db_column_not_null">false</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_DESIGNATION:db_column_not_null">false</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_DESIGNATION:db_column_size">100</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_AGE:db_column_not_null">false</entry>
+   <entry key="return_single_result_set">false</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_ADDRESS:db_column_type">VARCHAR2</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_STATUS:db_column_size">50</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_NAME:db_column_type">VARCHAR2</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_ID:db_column_type">VARCHAR2</entry>
+   <entry key="root_descriptor_alias">EMPLOYEE_DETAILS</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_AGE:db_column_type">VARCHAR2</entry>
+   <entry key="EMPLOYEE_DETAILS:db_column_5">EMP_AGE</entry>
+   <entry key="EMPLOYEE_DETAILS:db_column_4">EMP_ADDRESS</entry>
+   <entry key="EMPLOYEE_DETAILS:db_column_3">EMP_DESIGNATION</entry>
+   <entry key="EMPLOYEE_DETAILS:db_column_2">EMP_STATUS</entry>
+   <entry key="EMPLOYEE_DETAILS:db_column_1">EMP_NAME</entry>
+   <entry key="EMPLOYEE_DETAILS:db_column_0">EMP_ID</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_STATUS:db_column_not_null">false</entry>
+   <entry key="EMPLOYEE_DETAILS:db_table_type">TABLE</entry>
+   <entry key="EMPLOYEE_DETAILS.EMP_ADDRESS:db_column_size">255</entry>
+</properties>

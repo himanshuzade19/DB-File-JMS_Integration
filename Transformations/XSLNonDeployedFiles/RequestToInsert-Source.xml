@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<EmployeeDetailsCollection xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdp_InsertOp">
+   <EmployeeDetails>
+      <empId>1234</empId>
+      <empName>Abhiji2</empName>
+      <empStatus>asdfghj</empStatus>
+      <empDesignation>soft.Dev</empDesignation>
+      <empAddress>Highanchat</empAddress>
+      <empAge>12</empAge>
+   </EmployeeDetails>
+   <EmployeeDetails>
+      <empId>empId7</empId>
+      <empName>empName8</empName>
+      <empStatus>empStatus9</empStatus>
+      <empDesignation>empDesignation10</empDesignation>
+      <empAddress>empAddress11</empAddress>
+      <empAge>empAge12</empAge>
+   </EmployeeDetails>
+   <EmployeeDetails>
+      <empId>23456</empId>
+      <empName>zzzzzzzzz</empName>
+      <empStatus>yyyyy</empStatus>
+      <empDesignation>cccccccccc</empDesignation>
+      <empAddress>rrrrrrrrrr</empAddress>
+      <empAge>iiiiiiiiiiiiii</empAge>
+   </EmployeeDetails>
+</EmployeeDetailsCollection>

@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xs:schema targetNamespace="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdp_InsertOp" xmlns="http://xmlns.oracle.com/pcbpel/adapter/db/top/DBAdp_InsertOp" elementFormDefault="qualified" attributeFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="EmployeeDetailsCollection" type="EmployeeDetailsCollection"/>
+   <xs:complexType name="EmployeeDetailsCollection">
+      <xs:sequence>
+         <xs:element name="EmployeeDetails" type="EmployeeDetails" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="EmployeeDetails">
+      <xs:sequence>
+         <xs:element name="empId" type="xs:string"/>
+         <xs:element name="empName" type="xs:string"/>
+         <xs:element name="empStatus" type="xs:string"/>
+         <xs:element name="empDesignation" type="xs:string"/>
+         <xs:element name="empAddress" type="xs:string"/>
+         <xs:element name="empAge" type="xs:string"/>
+      </xs:sequence>
+   </xs:complexType>
+</xs:schema>
